@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="Image temporarily unavailable">
+  <rect width="800" height="600" fill="#e8e2d5"/>
+  <g fill="none" stroke="#8a7a63" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="240" y="190" width="320" height="220" rx="14"/>
+    <path d="M270 370l80-90 60 55 65-80 75 100"/>
+    <circle cx="345" cy="245" r="22"/>
+  </g>
+  <text x="400" y="460" font-family="Inter, Arial, sans-serif" font-size="26" fill="#6b5d49" text-anchor="middle">Photo temporarily unavailable</text>
+</svg>

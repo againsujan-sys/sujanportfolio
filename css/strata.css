@@ -1,0 +1,1968 @@
+/* ==========================================================================
+   STRATA — Geological Portfolio Design System
+   Sujan Paudyal · Geologist & Civil Engineer
+   Palette v2 "Soft Strata": muted mauve dusk · warm sand · rose-clay &
+   sage minerals · honey-gold accents. Full light/dark theming via
+   [data-theme] token overrides — sections are literal crustal layers.
+   ========================================================================== */
+
+/* ---------- Fonts (loaded in HTML) : Fraunces (display) + Inter (body) + IBM Plex Mono (data) */
+:root {
+  /* Mineral / basalt core — softened to a dusky mauve-charcoal */
+  --basalt-950: #17151f;
+  --basalt-900: #1e1b27;
+  --basalt-850: #242132;
+  --basalt-800: #2b2739;
+  --charcoal:   #353047;
+  --charcoal-2: #413b54;
+
+  /* Sediment & strata — warm sand & rose-clay earth tones */
+  --sediment-100: #f4ecdf;
+  --sediment-200: #e6d8c3;
+  --sediment-300: #d5c3a6;
+  --topsoil:      #b0805c;
+  --terracotta:   #c06a4a;
+  --terracotta-2: #dd8b62;
+  --ochre:        #cf9768;
+  --clay:         #8a5d45;
+  --slate-green:  #5f8794;
+
+  /* Mineral accents — honey gold, soft amber, sage */
+  --gold:       #e6b877;
+  --gold-bright:#f4d08f;
+  --copper:     #cd8859;
+  --pyrite:     #dfbc72;
+  --sage:       #8fae8b;
+
+  /* Semantic */
+  --bg:            var(--basalt-950);
+  --surface:       rgba(255, 255, 255, 0.05);
+  --surface-2:     rgba(255, 255, 255, 0.08);
+  --text:          #ece3d4;
+  --text-muted:    #b3a795;
+  --accent:        var(--gold);
+  --accent-strong: var(--terracotta-2);
+  --line:          rgba(230, 184, 119, 0.24);
+  --line-soft:     rgba(236, 227, 212, 0.12);
+
+  /* Themeable overlays & shells */
+  --scrim:         rgba(23, 21, 31, 0.6);
+  --scrim-strong:  rgba(23, 21, 31, 0.9);
+  --header-bg:     rgba(23, 21, 31, 0.88);
+  --nav-open-bg:   radial-gradient(circle at 70% 20%, #2c2538, var(--basalt-950) 65%);
+  --map-bg:        #211f2c;
+  --seismo-a:      rgba(192, 106, 74, 0.55);
+  --seismo-b:      rgba(230, 184, 119, 0.75);
+  --seismo-c:      rgba(221, 139, 98, 0.55);
+  --seismo-grid:   rgba(230, 184, 119, 0.05);
+  --seismo-glow:   rgba(230, 184, 119, 0.5);
+  --seismo-pen:    #f4d08f;
+
+  /* Crustal layer stops (fault dividers follow the section gradients) */
+  --layer-surface-a: #1d1a26;  --layer-surface-b: #241e22;
+  --layer-regolith:  #241e22;  --layer-sed-a:     #221d29;
+  --layer-sed-b:     #221d29;  --layer-deep:      #291f20;
+  --layer-deep-b:    #291f20;  --layer-mantle:    #35201b;
+  --layer-mantle-b:  #35201b;  --layer-core:      #42231a;
+
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* === GEO PALETTE v3 — cohesive earth-inspired tokens (authoritative) === */
+  --geo-primary:   #2C3E50;  /* deep slate   — headings, dark chrome */
+  --geo-secondary: #D35400;  /* terracotta rust — CTAs & accents     */
+  --geo-bg:        #F8F9FA;  /* off-white page background            */
+  --geo-surface:   #FFFFFF;  /* white card surface                   */
+  --geo-border:    #E2E8F0;  /* subtle card border                   */
+  --geo-shadow:    0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  --geo-shadow-hover: 0 14px 28px -6px rgba(44, 62, 80, 0.18);
+
+  /* Theme-aware INK tokens — every text rule below reads these instead of
+     raw palette hexes, so the same component renders correctly in BOTH the
+     default light portfolio and the opt-in basalt "Soft Strata" dark theme. */
+  --ink-strong: var(--geo-primary);   /* headings & emphasized body text */
+  --ink-muted:  #475569;              /* slate-grey secondary text       */
+  --ink-soft:   #64748B;              /* tertiary labels                 */
+  --ink-accent: var(--geo-secondary); /* terracotta label accents        */
+  --ink-highlight: #A04000;           /* strong accent for hover states  */
+
+  --radius-sm: 6px;
+  --radius-md: 14px;
+  --radius-lg: 24px;
+  --header-h: 74px;
+  --maxw: 1200px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- DEFAULT THEME = GEO PALETTE v3 (off-white earth portfolio) ----
+   The geological portfolio now ships light-first: off-white page, white card
+   surfaces, deep-slate typography and terracotta accents. The legacy dark
+   "Soft Strata" palette survives as an opt-in via [data-theme="dark"]. */
+:root {
+  --bg:            var(--geo-bg);
+  --surface:       var(--geo-surface);
+  --surface-2:     #F1F5F9;
+  --text:          var(--geo-primary);
+  --text-muted:    #475569;
+  --text-light:    #64748B;
+  --accent:        var(--geo-secondary);
+  --accent-strong: #A04000;
+  --line:          var(--geo-border);
+  --line-soft:     #E2E8F0;
+
+  --scrim:         rgba(248, 249, 250, 0.72);
+  --scrim-strong:  rgba(248, 249, 250, 0.92);
+  --header-bg:     rgba(44, 62, 80, 0.95);
+  --nav-open-bg:   radial-gradient(circle at 70% 20%, #34495E, var(--geo-primary) 65%);
+  --map-bg:        #EEF2F6;
+
+  --layer-surface-a: #F8F9FA;  --layer-surface-b: #F4F6F8;
+  --layer-regolith:  #F4F6F8;  --layer-sed-a:     #F1F4F7;
+  --layer-sed-b:     #F1F4F7;  --layer-deep:      #EDF1F5;
+  --layer-deep-b:    #EDF1F5;  --layer-mantle:    #EBEFF4;
+  --layer-mantle-b:  #EBEFF4;  --layer-core:      #E9EEF3;
+}
+
+/* ---------- LEGACY DARK THEME — basalt "Soft Strata" (opt-in) ---------- */
+[data-theme="dark"] {
+  --bg:            var(--basalt-950);
+  --surface:       rgba(255, 255, 255, 0.05);
+  --surface-2:     rgba(255, 255, 255, 0.08);
+  --text:          #ece3d4;
+  --text-muted:    #b3a795;
+  --accent:        var(--gold);
+  --accent-strong: var(--terracotta-2);
+  --line:          rgba(230, 184, 119, 0.24);
+  --line-soft:     rgba(236, 227, 212, 0.12);
+
+  /* Ink tokens revert to the warm basalt inks in dark mode */
+  --ink-strong:    #ece3d4;
+  --ink-muted:     #b3a795;
+  --ink-soft:      #9b8f7d;
+  --ink-accent:    var(--terracotta-2);
+  --ink-highlight: var(--gold-bright);
+
+  --scrim:         rgba(23, 21, 31, 0.6);
+  --scrim-strong:  rgba(23, 21, 31, 0.9);
+  --header-bg:     rgba(23, 21, 31, 0.88);
+  --nav-open-bg:   radial-gradient(circle at 70% 20%, #2c2538, var(--basalt-950) 65%);
+  --map-bg:        #211f2c;
+  /* Seismograph keeps its warm basalt inks in the legacy dark theme */
+  --seismo-a:      rgba(192, 106, 74, 0.55);
+  --seismo-b:      rgba(230, 184, 119, 0.75);
+  --seismo-c:      rgba(221, 139, 98, 0.55);
+  --seismo-grid:   rgba(230, 184, 119, 0.05);
+  --seismo-glow:   rgba(230, 184, 119, 0.5);
+  --seismo-pen:    #f4d08f;
+
+  /* GEO v3 ink tokens — headings & card chrome follow these so the deep-slate
+     typography rule stays true in every theme (dark falls back to the warm
+     basalt ivory instead of near-black slate). */
+  --geo-heading:   #ece3d4;
+  --geo-link:      var(--terracotta-2);
+  --geo-link-hover:var(--gold-bright);
+
+  /* Card system re-tinted for the basalt night: translucent surfaces and
+     light hairlines replace the white/#E2E8F0 spec so cards never glare. */
+  --geo-surface:   rgba(255, 255, 255, 0.05);
+  --geo-border:    rgba(230, 184, 119, 0.24);
+  --geo-shadow:    0 4px 6px -1px rgba(0, 0, 0, 0.35);
+  --geo-shadow-hover: 0 14px 28px -6px rgba(0, 0, 0, 0.55);
+
+  --layer-surface-a: #1d1a26;  --layer-surface-b: #241e22;
+  --layer-regolith:  #241e22;  --layer-sed-a:     #221d29;
+  --layer-sed-b:     #221d29;  --layer-deep:      #291f20;
+  --layer-deep-b:    #291f20;  --layer-mantle:    #35201b;
+  --layer-mantle-b:  #35201b;  --layer-core:      #42231a;
+}
+
+/* ---------- LEGACY LIGHT THEME — sunlit limestone plateau (opt-in) -------
+   Historical note: before GEO v3, "light" meant this warm limestone wash.
+   The DEFAULT palette is now the off-white GEO portfolio itself (no
+   data-theme attribute), and js/theme-switcher.js REMOVES the attribute for
+   light mode, so these rules are dormant unless someone sets
+   data-theme="light" by hand. They must never re-tint the slate sticky
+   header or the white card system, so all header/chrome overrides that used
+   to live here were retired when GEO v4 shipped. */
+[data-theme="light"] {
+  background: var(--bg); /* opaque base for light mode (applied to <html>) */
+  --basalt-950: #f7f2e8;
+  --basalt-900: #efe6d6;
+  --basalt-850: #e7dcc8;
+  --basalt-800: #ded0b8;
+  --charcoal:   #d3c3a8;
+  --charcoal-2: #c3b091;
+
+  --sediment-100: #4c4152;
+  --sediment-200: #5d4f3f;
+  --sediment-300: #6e5d47;
+  --topsoil:      #96603c;
+  --terracotta:   #ad4e26;
+  --terracotta-2: #c2643b;
+  --ochre:        #a06a35;
+  --clay:         #77503a;
+  --slate-green:  #3f6a7c;
+
+  --gold:       #c08a3e;
+  --gold-bright:#a97a35;
+  --copper:     #ab6440;
+  --pyrite:     #9a7b2d;
+  --sage:       #5f8160;
+
+  --bg:            #f7f2e8;
+  --surface:       rgba(76, 58, 40, 0.055);
+  --surface-2:     rgba(76, 58, 40, 0.1);
+  --text:          #332e3a;
+  --text-muted:    #6f6557;
+  --line:          rgba(160, 112, 60, 0.32);
+  --line-soft:     rgba(76, 58, 40, 0.14);
+
+  --scrim:         rgba(247, 242, 232, 0.65);
+  --scrim-strong:  rgba(247, 242, 232, 0.92);
+  --header-bg:     rgba(247, 242, 232, 0.9);
+  --nav-open-bg:   radial-gradient(circle at 70% 20%, #f0e4cd, var(--basalt-950) 65%);
+  --map-bg:        #e9e2d2;
+  --seismo-a:      rgba(173, 78, 38, 0.4);
+  --seismo-b:      rgba(192, 138, 62, 0.6);
+  --seismo-c:      rgba(194, 100, 59, 0.4);
+  --seismo-grid:   rgba(160, 112, 60, 0.08);
+  --seismo-glow:   rgba(192, 138, 62, 0.35);
+  --seismo-pen:    #b3822f;
+
+  --layer-surface-a: #f7f2e8;  --layer-surface-b: #f2e9da;
+  --layer-regolith:  #f2e9da;  --layer-sed-a:     #eee3d0;
+  --layer-sed-b:     #eee3d0;  --layer-deep:      #eadcc4;
+  --layer-deep-b:    #eadcc4;  --layer-mantle:    #ecd6bd;
+  --layer-mantle-b:  #ecd6bd;  --layer-core:      #e8cba8;
+}
+
+/* ---------- DARK-THEME TEXT LEGIBILITY (GEO v4) ---------------------------
+   The component rules above were authored for the legacy basalt palette and
+   still reference its warm inks (--gold / --pyrite / --ochre / --sediment).
+   On the default off-white GEO surface those honey tones are near-invisible,
+   so we retokenize them to slate ink and terracotta rust. [data-theme="dark"]
+   keeps the original warm values — every override below inherits from :root,
+   so light mode gets readable text while dark mode is untouched. */
+:root {
+  --gold:        var(--ink-muted);   /* secondary labels & meta text  */
+  --gold-bright: var(--ink-strong);  /* emphasized label text         */
+  --pyrite:      var(--ink-soft);    /* mono micro-labels             */
+  --ochre:       var(--ink-accent);  /* lead-ins → terracotta rust    */
+  --terracotta:  var(--geo-secondary);
+  --copper:      var(--geo-secondary);
+  --clay:        var(--ink-muted);
+  --sediment-100: var(--ink-strong); /* display text on white cards   */
+  --sediment-200: var(--ink-muted);
+  --sediment-300: var(--ink-soft);
+  --topsoil:     var(--ink-muted);
+  --slate-green: #3D6B7A;            /* deepened teal for light bg    */
+  --sage:        #5F8160;            /* deepened sage for light bg    */
+
+  /* Seismograph inks for the DEFAULT light portfolio — warm terracotta +
+     deep-slate traces over the off-white page. The fixed #seismo-canvas sits
+     at z-index:-1 and <body> is transparent, so the animation paints through
+     behind every section wash. [data-theme="dark"] above keeps its basalt
+     gold inks for the night palette. */
+  --seismo-a:    rgba(211, 84, 0, 0.30);   /* terracotta trace          */
+  --seismo-b:    rgba(44, 62, 80, 0.26);   /* deep-slate trace          */
+  --seismo-c:    rgba(230, 126, 34, 0.24); /* lighter rust echo         */
+  --seismo-grid: rgba(44, 62, 80, 0.05);   /* faint ruled-paper grid    */
+  --seismo-glow: rgba(211, 84, 0, 0.22);   /* pen glow                  */
+  --seismo-pen:  #D35400;                  /* live pen head             */
+}
+
+/* Hover states that painted solid gold chips with basalt-dark ink would
+   render invisible grey-on-grey in light mode — use terracotta instead. */
+:root .skill-list li:hover,
+:root .slideshow-btn.is-active {
+  color: #fff;
+  background: var(--geo-secondary);
+  border-color: var(--geo-secondary);
+}
+
+/* Leaflet popups render inside a white widget regardless of theme, so their
+   internal text must always use the light-mode ink tokens. */
+.map-popup { color: var(--geo-primary); }
+.map-popup .map-popup-role { color: var(--geo-secondary); }
+.map-popup-title { color: var(--geo-primary); }
+.map-popup-org { color: var(--ink-muted); }
+
+/* Smooth cross-fade when switching themes */
+.theming *, .theming *::before, .theming *::after {
+  transition: background-color .45s ease, color .45s ease, border-color .45s ease,
+              fill .45s ease, box-shadow .45s ease !important;
+}
+
+/* ---------- Theme switch (sun/moon slider) ---------- */
+.header-tools { display: flex; align-items: center; gap: 10px; }
+.theme-toggle { width: 64px; height: 32px; position: relative; z-index: 1002; }
+.theme-toggle__track {
+  position: absolute; inset: 0; border-radius: 999px; display: block;
+  background: var(--surface-2); border: 1px solid var(--line);
+  transition: background .3s var(--ease), border-color .3s;
+}
+.theme-toggle:hover .theme-toggle__track { border-color: var(--gold); }
+.theme-toggle__thumb {
+  position: absolute; top: 3px; left: 3px; width: 24px; height: 24px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--copper));
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .35);
+  transition: transform .4s var(--ease);
+}
+/* Thumb parked LEFT while dark mode is active; slides RIGHT (sun side) in
+   the default GEO light palette. The old rule keyed on [data-theme="light"],
+   which no longer matches once the attribute is removed for light mode. */
+html:not([data-theme="dark"]) .theme-toggle__thumb { transform: translateX(32px); }
+.theme-toggle__icon {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  font-size: .8rem; line-height: 1; color: var(--text-muted); z-index: 1;
+  transition: color .3s, opacity .3s;
+}
+.theme-toggle__icon--sun  { left: 8px;  opacity: .55; }
+.theme-toggle__icon--moon { right: 8px; opacity: 1; }
+html:not([data-theme="dark"]) .theme-toggle__icon--sun  { opacity: 1; color: var(--gold-bright); }
+html:not([data-theme="dark"]) .theme-toggle__icon--moon { opacity: .45; }
+
+@media (max-width: 860px) { .section-chip { max-width: min(38vw, 220px); } }
+
+/* ---------- Wavy shimmer on titles ---------- */
+.wavy {
+  background-image: linear-gradient(110deg, transparent 33%, var(--gold-bright) 50%, transparent 67%);
+  background-size: 300% 100%;
+  background-position: 200% 0;
+  -webkit-background-clip: text; background-clip: text;
+  animation: waveShimmer 5.5s ease-in-out infinite;
+}
+@keyframes waveShimmer { to { background-position: -100% 0; } }
+
+/* ---------- Per-letter title wave (JS splits .section-title into spans) ---------- */
+.wave-letter { display: inline-block; }
+.section-title.in-wave .wave-letter { animation: letterWave 2.6s var(--ease) infinite; animation-delay: var(--wi, 0ms); }
+@keyframes letterWave { 0%, 62%, 100% { transform: none; } 18% { transform: translateY(-7px); } 34% { transform: translateY(2px); } }
+
+/* ---------- Typing effect for hero lead paragraph ---------- */
+.typing-caret-inline {
+  display: inline-block; width: .5ch; height: 1em; margin-left: 2px;
+  background: var(--gold); vertical-align: text-bottom;
+  animation: blink 1s steps(1) infinite;
+}
+
+/* ---------- Floating badges & skill chips ---------- */
+.testimonial-badge, .exp-duration { animation: floaty 5s ease-in-out infinite; }
+.exp-duration { animation-delay: 1.2s; }
+@keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.skill-list li { transition: all .3s var(--ease); }
+.skill-list li:nth-child(even) { transition-delay: .05s; }
+
+/* ---------- Gentle breathing glow on the magma footer line ---------- */
+.magma-line { animation: magma 6s ease-in-out infinite alternate, breatheGlow 4.5s ease-in-out infinite alternate; }
+@keyframes breatheGlow { from { filter: drop-shadow(0 0 2px rgba(230,184,119,.2)); } to { filter: drop-shadow(0 0 8px rgba(230,184,119,.55)); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wavy, .section-title.in-wave .wave-letter, .testimonial-badge, .exp-duration, .magma-line { animation: none; }
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  /* Base page colour lives on <html> — GEO PALETTE v3: off-white (#F8F9FA)
+     by default; the legacy dark theme overrides it back to basalt below.
+     The fixed #seismo-canvas (z-index:-1, painted on <body>) renders on top
+     of it and stays visible behind the semi-transparent section washes. */
+  background: var(--geo-bg, #F8F9FA);
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+[data-theme="dark"] html, html[data-theme="dark"] { background: #17151c; }
+
+body {
+  font-family: var(--font-body);
+  /* Must stay transparent — body was painting an opaque sheet on top of the
+     fixed #seismo-canvas (z-index:-1), hiding the seismograph animation. */
+  background: transparent;
+  color: var(--text);
+  line-height: 1.65;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Global typography (GEO palette v3) ---------- */
+h1, h2, h3, h4, h5, h6 {
+  /* --geo-heading = deep slate by default; the legacy dark theme overrides
+     it to warm basalt ivory so headings never render near-black-on-black. */
+  color: var(--geo-heading, var(--geo-primary));
+  font-weight: 700;
+  line-height: 1.2;
+}
+h1 { font-size: clamp(2.3rem, 5.4vw, 4.2rem); }
+h2 { font-size: clamp(1.9rem, 4.2vw, 3.1rem); }
+h3 { font-size: clamp(1.35rem, 2.6vw, 1.7rem); }
+h4 { font-size: clamp(1.15rem, 2.1vw, 1.4rem); }
+h5 { font-size: clamp(1.05rem, 1.8vw, 1.2rem); }
+
+/* Terracotta accent bar beneath every section heading */
+.section-title { position: relative; padding-bottom: 14px; margin-bottom: 22px; }
+.section-title::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 4px;
+  margin-top: 12px;
+  border-radius: 2px;
+  background: var(--geo-secondary);
+}
+
+img { max-width: 100%; height: auto; display: block; }
+/* Link ink is themeable: terracotta on the light portfolio, warm clay/gold
+   in the legacy dark palette (deep #A04000 would vanish on basalt). */
+a { color: var(--geo-link, var(--geo-secondary)); text-decoration: none; transition: color .3s var(--ease); }
+a:hover, a:focus-visible { color: var(--geo-link-hover, #A04000); }
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--geo-secondary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+button { font: inherit; cursor: pointer; background: none; border: 0; color: inherit; }
+
+::selection { background: var(--geo-secondary); color: #fff; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+.skip-link {
+  position: fixed; top: -100px; left: 16px; z-index: 10001;
+  padding: 10px 20px; background: var(--geo-secondary); color: #fff;
+  font-weight: 700; border-radius: var(--radius-sm); transition: top .25s var(--ease);
+}
+.skip-link:focus { top: 12px; color: #fff; }
+
+/* ---------- Global canvas layers ---------- */
+/* Seismograph sits at the very back of the stack (z-index -1) so it can never
+   be covered by auto-stacking section backgrounds, and pointer-events:none
+   keeps it from blocking any clicks. */
+#seismo-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  z-index: -1; pointer-events: none; opacity: .55;
+  transition: opacity .4s ease;
+}
+[data-theme="dark"] #seismo-canvas { opacity: .62; } /* warm gold traces glow on basalt */
+.grain { display: none; } /* flat off-white paper look — grain overlay retired in GEO v3 */
+
+main { position: relative; z-index: 2; }
+
+/* ---------- Fixed top-right OM animation (pure SVG/CSS, no GIF) ----------
+   A dashed ring slowly revolves around a ॐ glyph. Fixed position keeps it
+   in the corner while scrolling; z-index floats it above all content but
+   pointer-events:none ensures it never blocks clicks on the UI beneath. */
+.corner-om {
+  position: fixed;
+  top: calc(var(--header-h, 64px) + 12px);
+  right: 16px;
+  width: clamp(48px, 6vw, 76px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  z-index: 1100;
+  color: var(--accent, #d4a24e);
+  opacity: .85;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, .35));
+  pointer-events: none; /* decorative — never intercepts clicks */
+}
+/* Ring revolves at a slightly slow speed */
+.corner-om .om-ring {
+  transform-origin: 50% 50%;
+  animation: om-revolve 18s linear infinite;
+}
+@keyframes om-revolve {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+/* Gentle breathing of the glyph so it feels alive, not spinning text */
+.corner-om .om-glyph {
+  transform-origin: 50% 50%;
+  animation: om-breathe 6s ease-in-out infinite;
+}
+@keyframes om-breathe {
+  0%, 100% { transform: scale(1);    opacity: .9; }
+  50%      { transform: scale(1.07); opacity: 1;  }
+}
+@media (max-width: 640px) {
+  .corner-om { width: 44px; right: 10px; top: calc(var(--header-h, 64px) + 8px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .corner-om .om-ring,
+  .corner-om .om-glyph { animation: none; }
+}
+
+/* ---------- Header — scroll-driven sticky bar (GEO v4) ----------
+   Clean by design: on page load the bar shows only the "Sujan." logo, the
+   compact current-section chip, the theme toggle, the menu button, and
+   icon-only contact actions. The long list of nav links lives in the
+   dropdown panel instead. Sticky + backdrop-blur keeps it legible over
+   every content section. */
+body.has-header { padding-top: var(--header-h); }
+.site-header {
+  position: sticky; top: 0; left: 0; right: 0; z-index: 1000;
+  height: var(--header-h);
+  background: rgba(44, 62, 80, 0.95); /* semi-transparent deep-slate backdrop */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.18);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  transition: border-color .4s var(--ease), background .4s var(--ease);
+}
+.site-header.scrolled {
+  border-bottom-color: var(--geo-secondary);
+  background: rgba(44, 62, 80, 0.95);
+}
+
+.header-inner {
+  position: relative; /* anchor for the nav dropdown panel */
+  max-width: var(--maxw); margin: 0 auto; height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; padding: 0 clamp(16px, 4vw, 40px);
+}
+
+.logo { order: 1; }
+.section-chip { order: 2; }
+.header-tools { order: 3; }
+.nav-toggle { order: 4; }
+.header-contact { order: 5; }
+
+/* ---------- Current-section chip (scrollspy label + menu opener) ----------
+   A compact pill centred-left in the bar that displays the section currently
+   scrolled into view (updated by the IntersectionObserver in js/main.js) and
+   opens the full navigation dropdown when pressed. */
+.section-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  max-width: min(42vw, 340px);
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  color: #fff; cursor: pointer;
+  font-family: var(--font-display);
+  font-size: .78rem; font-weight: 700; letter-spacing: .05em;
+  text-transform: uppercase;
+  transition: background .25s var(--ease), border-color .25s var(--ease),
+              transform .25s var(--ease);
+}
+.section-chip:hover,
+.section-chip:focus-visible,
+.section-chip[aria-expanded="true"] {
+  background: var(--geo-secondary);
+  border-color: var(--geo-secondary);
+  transform: translateY(-1px);
+  outline: none;
+}
+.section-chip__dot {
+  flex: 0 0 auto;
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--geo-secondary);
+  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.25);
+}
+.section-chip:hover .section-chip__dot,
+.section-chip:focus-visible .section-chip__dot,
+.section-chip[aria-expanded="true"] .section-chip__dot { background: #fff; box-shadow: none; }
+.section-chip__text {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.section-chip__chevron { flex: 0 0 auto; transition: transform .3s var(--ease); }
+.section-chip[aria-expanded="true"] .section-chip__chevron { transform: rotate(180deg); }
+
+/* ---------- Header progress rail (scroll-driven feedback) ----------
+   Thin terracotta line pinned to the header's bottom edge whose width tracks
+   reading progress through the page. Width is set by js/main.js. */
+.site-header::after {
+  content: "";
+  position: absolute; left: 0; bottom: -1px; height: 3px; width: var(--scroll-progress, 0%);
+  background: linear-gradient(90deg, var(--geo-secondary), #E67E22);
+  border-radius: 0 2px 2px 0;
+  transition: width .15s linear;
+  z-index: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header::after { transition: none; }
+}
+
+/* Header direct-contact actions — icon-only round buttons on the slate
+   backdrop (labels exposed via aria-label / sr-only text). */
+.header-contact {
+  display: flex; align-items: center; gap: 8px;
+  flex: 0 0 auto;
+}
+.header-contact__link {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 34px; height: 34px; padding: 0;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 50%;
+  color: #fff; text-decoration: none;
+  transition: background .25s var(--ease), border-color .25s var(--ease),
+              transform .25s var(--ease);
+}
+.header-contact__link:hover,
+.header-contact__link:focus-visible {
+  background: var(--geo-secondary);
+  border-color: var(--geo-secondary);
+  color: #fff;
+  transform: translateY(-1px);
+  outline: none;
+}
+.header-contact__icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  font-style: normal; font-size: .95rem; color: var(--geo-secondary);
+}
+.header-contact__icon--brand { font-weight: 800; font-size: .8rem; }
+.header-contact__link:hover .header-contact__icon,
+.header-contact__link:focus-visible .header-contact__icon { color: #fff; }
+@media (max-width: 560px) {
+  .header-contact__link { width: 30px; height: 30px; }
+}
+
+.logo {
+  font-family: var(--font-display); font-weight: 800; font-size: 1.5rem;
+  letter-spacing: .01em; color: #fff; display: flex; align-items: baseline;
+}
+.logo span { color: var(--geo-secondary); }
+.logo em {
+  font-style: normal; font-family: var(--font-mono); font-size: .62rem;
+  letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.75);
+  margin-left: 10px; display: none;
+}
+@media (min-width: 900px) { .logo em { display: inline; } }
+
+/* ---------- Primary nav — dropdown panel (GEO v4) ----------
+   The 9-link list no longer sits inline in the bar. It lives in a compact
+   dropdown anchored under .header-inner, opened by the section chip or the
+   menu button on every viewport. Links keep terracotta hover/active
+   highlighting driven by the IntersectionObserver scrollspy. */
+.primary-nav {
+  position: absolute; top: calc(100% + 10px); left: clamp(16px, 4vw, 40px);
+  z-index: 1002;
+  min-width: 250px; max-height: calc(88vh - var(--header-h)); overflow-y: auto;
+  padding: 10px;
+  background: rgba(44, 62, 80, 0.97);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(226, 232, 240, 0.18);
+  border-radius: 12px;
+  box-shadow: 0 14px 34px -10px rgba(0, 0, 0, 0.45);
+  opacity: 0; visibility: hidden; transform: translateY(-8px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease), visibility .3s;
+}
+.primary-nav.open { opacity: 1; visibility: visible; transform: none; }
+.primary-nav ul { display: flex; flex-direction: column; gap: 2px; list-style: none; }
+.primary-nav a {
+  position: relative; display: block;
+  font-size: .82rem; font-weight: 600; letter-spacing: .06em;
+  text-transform: uppercase; color: #fff;
+  padding: 10px 14px 10px 26px; border-radius: 8px;
+  transition: background .25s var(--ease), color .25s var(--ease);
+}
+.primary-nav a::after {
+  content: ""; position: absolute; left: 10px; top: 50%; width: 8px; height: 8px;
+  transform: translateY(-50%); border-radius: 50%;
+  background: transparent; border: 1.5px solid rgba(255, 255, 255, 0.35);
+  transition: background .25s var(--ease), border-color .25s var(--ease);
+}
+.primary-nav a:hover, .primary-nav a:focus-visible { background: rgba(255, 255, 255, 0.08); color: var(--geo-secondary); }
+.primary-nav a.active { color: var(--geo-secondary); background: rgba(211, 84, 0, 0.12); }
+.primary-nav a.active::after { background: var(--geo-secondary); border-color: var(--geo-secondary); }
+
+.nav-toggle {
+  display: block; width: 44px; height: 44px; position: relative; z-index: 1003;
+  cursor: pointer;
+}
+.nav-toggle__bar {
+  display: block; width: 24px; height: 2px; margin: 5px auto;
+  background: #fff; transition: transform .3s var(--ease), opacity .3s;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] .nav-toggle__bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+@media (max-width: 860px) {
+  /* On narrow viewports the panel becomes a full-screen overlay for easy
+     tapping; same open/close mechanics and scrollspy highlighting. */
+  .primary-nav {
+    position: fixed; inset: var(--header-h) 0 0 0;
+    top: var(--header-h); left: 0; right: 0; bottom: 0;
+    min-width: 0; max-height: none; border: 0; border-radius: 0;
+    display: grid; place-items: center; padding: 24px;
+  }
+  .primary-nav ul { align-items: center; gap: 10px; }
+  .primary-nav a { font-size: 1.1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .primary-nav, .primary-nav a, .section-chip, .nav-toggle__bar { transition: none; }
+}
+
+/* ---------- Buttons — solid terracotta CTAs (GEO v3) ---------- */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 13px 26px; border-radius: 6px;
+  font-weight: 700; font-size: .9rem; letter-spacing: .02em;
+  border: 1px solid transparent;
+  box-shadow: var(--geo-shadow);
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease),
+              background .25s, border-color .25s, color .25s;
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--geo-shadow-hover); }
+.btn-primary, .btn-copper {
+  background: var(--geo-secondary); /* solid terracotta */
+  color: #fff; border-color: var(--geo-secondary);
+}
+.btn-primary:hover, .btn-copper:hover { color: #fff; background: #b84a00; border-color: #b84a00; }
+.btn-ghost {
+  /* --geo-heading keeps ghost buttons legible in the dark theme too */
+  border-color: var(--geo-border); color: var(--geo-heading, var(--geo-primary));
+  background: var(--geo-surface);
+}
+.btn-ghost:hover { border-color: var(--geo-secondary); color: var(--geo-secondary); }
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px); }
+
+/* ---------- GEO PALETTE v3 — Card container system ----------------------
+   Every main section, article and list item is a distinct "specimen card":
+   white surface, subtle 1px #E2E8F0 border, 12px radius, soft drop shadow.
+   Hover deepens the shadow and highlights the terracotta border. */
+.stratum { position: relative; padding: clamp(80px, 11vh, 140px) 0; } /* restored vertical rhythm */
+
+main section.stratum:not(.hero),
+main > section:not(.hero) {
+  background: var(--geo-surface);            /* white card surface      */
+  border: 1px solid var(--geo-border);       /* subtle 1px #E2E8F0 edge */
+  border-radius: 12px;
+  box-shadow: var(--geo-shadow);             /* 0 4px 6px -1px rgba(0,0,0,.05) */
+  transition: box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+main section.stratum:not(.hero):hover,
+main > section:not(.hero):hover {
+  box-shadow: var(--geo-shadow-hover);
+  border-color: var(--geo-secondary);
+}
+
+article {
+  background: var(--geo-surface);
+  border: 1px solid var(--geo-border);
+  border-radius: 12px;
+  box-shadow: var(--geo-shadow);
+  transition: transform .3s var(--ease), box-shadow .3s var(--ease),
+              border-color .3s var(--ease);
+}
+article:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--geo-shadow-hover);
+  border-color: var(--geo-secondary);
+}
+
+/* List items read as individual specimen chips/cards. Scoped to main so
+   header/footer navigation lists stay clean text links (no card blocks). */
+main li {
+  background: var(--geo-surface);
+  border: 1px solid var(--geo-border);
+  border-radius: 12px;
+  box-shadow: var(--geo-shadow);
+  transition: box-shadow .3s var(--ease), border-color .3s var(--ease);
+}
+main li:hover {
+  box-shadow: var(--geo-shadow-hover);
+  border-color: var(--geo-secondary);
+}
+
+/* Header & footer nav / contact lists are explicitly exempt from the card
+   treatment — this prevents white "big blocks" appearing in the slate bar. */
+.site-header li, .site-footer li,
+.primary-nav li, .footer-links li,
+.header-contact, .footer-contact {
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+.site-header li:hover, .site-footer li:hover,
+.footer-links li:hover { box-shadow: none !important; }
+
+/* GEO v4 header controls keep their own translucent-slate styling and must
+   never inherit the white card surface or generic hover rules. */
+:root .section-chip, :root .header-contact__link {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  box-shadow: none;
+  color: #fff;
+}
+:root .header-contact__link { border-radius: 50%; }
+:root .section-chip:hover, :root .section-chip:focus-visible,
+:root .section-chip[aria-expanded="true"],
+:root .header-contact__link:hover, :root .header-contact__link:focus-visible {
+  background: var(--geo-secondary);
+  border-color: var(--geo-secondary);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* Card overrides — legacy dark-theme surfaces & radii retired in GEO v3.
+   These later rules keep every section/article/list-item consistent with
+   the white-surface card spec above (12px radius, #E2E8F0 hairline,
+   soft shadow deepening into terracotta-highlighted hover).
+   Scoped to the default light theme via :root prefix so the opt-in
+   [data-theme="dark"] palette keeps its legacy "Soft Strata" surfaces. */
+:root .about, :root .mentors, :root .research, :root .testimonials,
+:root .gallery, :root .field-map {
+  background: var(--geo-surface);
+}
+/* The legacy warm gradients below are opaque rgba washes that would paint
+   over the white card surface — clear them in the default light theme. */
+:root .about, :root .mentors, :root .research, :root .testimonials,
+:root .gallery, :root .field-map, :root .contact {
+  background-image: none;
+}
+:root .hero {
+  /* Keep only the subtle terracotta radial glows; drop the dark basalt
+     linear wash that made the hero read as a black block on off-white. */
+  background:
+    radial-gradient(1100px 500px at 80% -10%, rgba(211, 84, 0, 0.07), transparent 60%),
+    radial-gradient(900px 600px at 10% 110%, rgba(44, 62, 80, 0.05), transparent 55%);
+}
+:root .site-footer {
+  background: linear-gradient(180deg, #EDF1F5, var(--geo-primary));
+  color: #cbd5e1;
+}
+:root .contact-card {
+  background: var(--geo-surface);
+  border: 1px solid var(--geo-border);
+  border-radius: 12px;
+  box-shadow: var(--geo-shadow);
+  inset: auto; /* clear legacy inset glow */
+}
+:root .exp-card, :root .core-sample, :root .testimonial-card,
+:root .unit-body, :root .stat-row, :root .volunteer-list li,
+:root .contact-row, :root .map-legend-item, :root .mentor-photo,
+:root .photo-card, :root .about-photo {
+  border-radius: 12px;
+  border: 1px solid var(--geo-border);
+  background: var(--geo-surface);
+  box-shadow: var(--geo-shadow);
+}
+:root .exp-card:hover, :root .core-sample:hover, :root .core-sample.is-open,
+:root .testimonial-card:hover, :root .unit-body:hover,
+:root .volunteer-list li:hover, :root .stat-row:hover,
+:root .map-legend-item:hover, :root .map-legend-item.is-active {
+  box-shadow: var(--geo-shadow-hover);
+  border-color: var(--geo-secondary);
+}
+:root .skill-list li, :root .tag-list li, :root .exp-duration,
+:root .badge, :root .footer-links li {
+  padding: 8px 14px;
+  border: 1px solid var(--geo-border);
+  border-radius: 12px;
+  background: var(--geo-surface);
+  box-shadow: var(--geo-shadow);
+}
+:root .skill-list li:hover, :root .tag-list li:hover, :root .badge:hover {
+  color: var(--geo-primary);
+  background: var(--geo-surface);
+  border-color: var(--geo-secondary);
+  box-shadow: var(--geo-shadow-hover);
+}
+
+/* structural hooks (layout handled by their child grids) */
+.hero-content { min-width: 0; }
+.about-text { min-width: 0; }
+.about-side { min-width: 0; }
+.experience .exp-card { max-width: 100%; }
+.fault .plate-group { will-change: transform; }
+
+.layer-tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .28em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 14px;
+}
+.layer-tag::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
+
+.section-title {
+  font-family: var(--font-display); font-optical-sizing: auto;
+  font-size: clamp(2rem, 4.6vw, 3.4rem); font-weight: 700; line-height: 1.12;
+  letter-spacing: -.01em; margin-bottom: 14px;
+}
+.section-sub { color: var(--text-muted); max-width: 62ch; font-size: 1.05rem; }
+
+/* Fault-line divider between strata (tectonic displacement look) */
+.fault {
+  position: relative; height: 90px; overflow: hidden; z-index: 3; pointer-events: none;
+}
+.fault svg { position: absolute; left: 0; width: 100%; height: 100%; }
+.fault .plate-a { fill: var(--p-from, var(--layer-surface-a)); }
+.fault .plate-b { fill: var(--p-to, var(--layer-surface-b)); }
+/* crustal layer stops — dividers blend the two sections they join */
+.fault.layer-1 { --p-from: var(--layer-surface-a); --p-to: var(--layer-regolith); }
+.fault.layer-2 { --p-from: var(--layer-regolith);  --p-to: var(--layer-sed-a); }
+.fault.layer-3 { --p-from: var(--layer-sed-a);     --p-to: var(--layer-deep); }
+.fault.layer-4 { --p-from: var(--layer-mantle);    --p-to: var(--layer-core); }
+.fault .vein { stroke: var(--gold); stroke-width: 1.4; opacity: .5; }
+
+/* Parallax strata bands inside sections */
+.band {
+  position: absolute; left: -5%; width: 110%; pointer-events: none; z-index: 0;
+  opacity: .55; will-change: transform;
+}
+.band svg { display: block; width: 100%; height: auto; }
+
+/* ---------- HERO · Surface / Topsoil ---------- */
+.hero {
+  min-height: 100svh; display: flex; align-items: center;
+  background:
+    radial-gradient(1100px 500px at 80% -10%, rgba(192,106,74,.16), transparent 60%),
+    radial-gradient(900px 600px at 10% 110%, rgba(230,184,119,.09), transparent 55%),
+    linear-gradient(180deg, rgba(29,26,38,.55) 0%, rgba(32,28,42,.45) 55%, rgba(23,21,28,.55) 100%);
+  padding-top: var(--header-h);
+  overflow: hidden;
+}
+.hero-grid {
+  display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr);
+  gap: clamp(24px, 5vw, 64px); align-items: center; width: 100%;
+}
+@media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Hero portrait (relocated from the Qualifications & Skills aside) ---------- */
+.hero .hero-portrait {
+  justify-self: center;
+  width: min(100%, 360px);
+  margin: 0;
+}
+.hero .hero-portrait img { aspect-ratio: 4 / 5; height: auto; }
+@media (min-width: 1240px) { .hero .hero-portrait { width: min(100%, 420px); } }
+@media (max-width: 980px)  { .hero .hero-portrait { width: min(78%, 340px); margin-top: 34px; } }
+
+.eyebrow {
+  font-family: var(--font-mono); font-size: .75rem; letter-spacing: .32em;
+  text-transform: uppercase; color: var(--pyrite); margin-bottom: 18px;
+}
+.hero h1 {
+  font-family: var(--font-display); font-weight: 750;
+  font-size: clamp(2.3rem, 5.4vw, 4.2rem); line-height: 1.08; letter-spacing: -.015em;
+  min-height: 2.2em;
+}
+#typing-text { color: var(--text); }
+.typing-cursor {
+  display: inline-block; width: .55ch; height: 1em; margin-left: 4px;
+  background: var(--gold); vertical-align: text-bottom;
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.lead { margin-top: 22px; color: var(--text-muted); font-size: 1.08rem; max-width: 56ch; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+.hero-visual { position: relative; }
+#crystal-stage {
+  position: relative; width: 100%; aspect-ratio: 1 / 1.05; max-height: 620px;
+  cursor: grab; touch-action: pan-y;
+}
+#crystal-stage.dragging { cursor: grabbing; }
+#crystal-stage canvas { display: block; width: 100% !important; height: 100% !important; }
+
+.photo-card {
+  position: absolute; right: -4%; bottom: -4%; width: min(44%, 230px);
+  border-radius: var(--radius-md); overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px rgba(0,0,0,.55);
+  transform: rotate(3deg);
+  transition: transform .5s var(--ease);
+  z-index: 3;
+}
+#crystal-stage.no-webgl {
+  display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 40%, rgba(224,169,95,.14), transparent 60%);
+}
+#crystal-stage.no-webgl .photo-card { position: static; transform: none; width: min(70%, 300px); }
+.photo-card:hover { transform: rotate(0deg) scale(1.03); }
+.photo-card img { width: 100%; height: 100%; object-fit: cover; }
+.crystal-hint {
+  position: absolute; left: 8px; top: 8px; z-index: 4;
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--text-muted);
+  border: 1px dashed var(--line); border-radius: 999px; padding: 6px 12px;
+  background: var(--scrim); backdrop-filter: blur(4px);
+}
+.credential {
+  margin-top: 18px; font-family: var(--font-mono); font-size: .74rem;
+  color: var(--text-muted); letter-spacing: .04em;
+}
+.scroll-cue {
+  position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .3em;
+  text-transform: uppercase; color: var(--text-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.scroll-cue::after {
+  content: ""; width: 1px; height: 42px;
+  background: linear-gradient(var(--gold), transparent);
+  animation: drill 1.8s var(--ease) infinite;
+}
+@keyframes drill { 0% { transform: scaleY(0); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: top; } 100% { opacity: 0; transform: scaleY(1); } }
+
+/* ---------- ABOUT · Weathered Regolith ---------- */
+/* Semi-transparent washes: --bg is now applied to the html element, so these
+   translucent gradients let the fixed seismograph canvas show through. */
+.about { background: linear-gradient(180deg, rgba(29, 26, 38, .55), rgba(36, 30, 34, .45)); }
+.about-grid {
+  display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: clamp(28px, 5vw, 64px); align-items: start;
+}
+@media (max-width: 900px) { .about-grid { grid-template-columns: 1fr; } }
+
+.about-tagline {
+  font-family: var(--font-display); font-style: italic; font-size: 1.25rem;
+  color: var(--ochre); margin: 18px 0 26px;
+}
+.about-lede { color: var(--text-muted); margin-bottom: 18px; }
+.accent-term { color: var(--gold); font-weight: 700; }
+.about-lede em { color: var(--text); font-style: normal; border-bottom: 1px dotted var(--copper); }
+
+.skill-list {
+  display: flex; flex-wrap: wrap; gap: 10px; list-style: none; margin-top: 26px;
+}
+.skill-list li {
+  font-family: var(--font-mono); font-size: .74rem; letter-spacing: .05em;
+  padding: 8px 14px; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--text-muted);
+  background: rgba(224,169,95,.05);
+  transition: all .3s var(--ease);
+}
+.skill-list li:hover { color: var(--basalt-950); background: var(--gold); border-color: var(--gold); transform: translateY(-2px); }
+
+.about-photo {
+  border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--line);
+  box-shadow: 0 30px 70px rgba(0,0,0,.5);
+  position: relative;
+}
+.about-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, var(--scrim));
+}
+.about-photo img { width: 100%; object-fit: cover; }
+
+.about-stats { margin-top: 26px; display: grid; gap: 10px; }
+.stat-row {
+  display: grid; grid-template-columns: 12px 1fr auto; align-items: center; gap: 14px;
+  padding: 14px 16px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--line-soft);
+  transition: transform .3s var(--ease), border-color .3s;
+}
+.stat-row:hover { transform: translateX(6px); border-color: var(--line); }
+.stat-layer { width: 12px; height: 100%; min-height: 34px; border-radius: 3px; }
+.stat-layer[data-layer="topsoil"]     { background: repeating-linear-gradient(0deg, var(--topsoil) 0 4px, #8a5a3b 4px 8px); }
+.stat-layer[data-layer="sedimentary"] { background: repeating-linear-gradient(0deg, var(--ochre) 0 4px, var(--clay) 4px 8px); }
+.stat-layer[data-layer="metamorphic"] { background: repeating-linear-gradient(0deg, var(--slate-green) 0 4px, #2f4d57 4px 8px); }
+.stat-layer[data-layer="igneous"]     { background: repeating-linear-gradient(0deg, var(--terracotta) 0 4px, #8f3f22 4px 8px); }
+.stat-label { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; color: var(--pyrite); display: block; }
+.stat-value { font-size: .92rem; color: var(--text); }
+.badge {
+  font-family: var(--font-mono); font-size: .64rem; white-space: nowrap;
+  padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line);
+  color: var(--gold); background: rgba(224,169,95,.08);
+}
+@media (max-width: 560px) { .stat-row { grid-template-columns: 12px 1fr; } .badge { grid-column: 2; justify-self: start; } }
+
+/* ---------- Stratigraphic timeline (Education + Experience eras) ---------- */
+.column-head { margin: clamp(60px, 9vh, 110px) 0 40px; }
+
+.strat-column { position: relative; padding-left: 0; }
+.strat-unit {
+  position: relative; display: grid;
+  grid-template-columns: 150px 64px minmax(0, 1fr);
+  gap: 0 22px; align-items: stretch;
+}
+@media (max-width: 780px) {
+  .strat-unit { grid-template-columns: 44px minmax(0, 1fr); }
+  .unit-era { grid-column: 2; margin-bottom: 6px; }
+  .unit-spine { grid-column: 1; grid-row: 1 / span 2; }
+  .unit-body { grid-column: 2; }
+}
+
+.unit-era {
+  text-align: right; padding: 26px 0;
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--pyrite);
+  display: flex; flex-direction: column; justify-content: center; gap: 4px;
+}
+.unit-era small { color: var(--text-muted); letter-spacing: .08em; }
+
+.unit-spine { position: relative; display: flex; justify-content: center; }
+.unit-spine::before {
+  content: ""; position: absolute; top: 0; bottom: 0; width: 2px;
+  background: linear-gradient(180deg, var(--line), transparent 90%);
+}
+.unit-node {
+  position: relative; z-index: 2; margin-top: 34px;
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--basalt-900); border: 2px solid var(--gold);
+  box-shadow: 0 0 0 5px rgba(224,169,95,.12);
+  transition: transform .3s var(--ease), background .3s;
+}
+.strat-unit:hover .unit-node { transform: scale(1.25); background: var(--gold); }
+
+.unit-body {
+  margin: 14px 0 30px; padding: 26px 30px; border-radius: var(--radius-md);
+  background: var(--surface); border: 1px solid var(--line-soft);
+  position: relative; overflow: hidden;
+  transition: border-color .3s var(--ease), transform .4s var(--ease);
+}
+.unit-body:hover { border-color: var(--line); transform: translateY(-4px); }
+.unit-body::before { /* lithology hatch strip */
+  content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 8px;
+  background: var(--litho, repeating-linear-gradient(0deg, var(--ochre) 0 5px, var(--clay) 5px 10px));
+}
+.unit-body h4 { font-family: var(--font-display); font-size: 1.28rem; margin-bottom: 6px; }
+.unit-meta { font-family: var(--font-mono); font-size: .74rem; color: var(--gold); margin-bottom: 12px; display: block; }
+.unit-meta .loc { color: var(--text-muted); }
+.unit-body p:not(.unit-meta) { color: var(--text-muted); font-size: .95rem; }
+
+/* Experience era markers */
+.era-marker {
+  display: flex; align-items: center; gap: 18px; margin: 64px 0 26px;
+}
+.era-marker .chip {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .24em;
+  text-transform: uppercase; color: var(--basalt-950); font-weight: 700;
+  padding: 6px 16px; border-radius: 999px;
+  background: linear-gradient(120deg, var(--gold), var(--terracotta-2));
+}
+.era-marker .rule { flex: 1; height: 1px; background: var(--line); }
+.era-marker .depth { font-family: var(--font-mono); font-size: .68rem; color: var(--text-muted); }
+
+.exp-card {
+  padding: 26px 30px; border-radius: var(--radius-md);
+  background: var(--surface); border: 1px solid var(--line-soft);
+  transition: transform .4s var(--ease), border-color .3s, box-shadow .4s;
+}
+.exp-card:hover { transform: translateY(-5px); border-color: var(--line); box-shadow: 0 22px 50px rgba(0,0,0,.4); }
+.exp-card h3, .exp-card h4 { font-family: var(--font-display); font-size: 1.3rem; }
+.exp-org { font-family: var(--font-mono); font-size: .76rem; color: var(--pyrite); margin: 6px 0 14px; }
+.exp-duration {
+  display: inline-block; font-family: var(--font-mono); font-size: .68rem;
+  border: 1px solid var(--line); color: var(--gold);
+  padding: 3px 12px; border-radius: 999px; margin-bottom: 14px;
+}
+.exp-list { list-style: none; display: grid; gap: 10px; }
+.exp-list li { position: relative; padding-left: 22px; color: var(--text-muted); font-size: .93rem; }
+.exp-list li::before {
+  content: "◆"; position: absolute; left: 0; top: 1px;
+  color: var(--terracotta-2); font-size: .7rem;
+}
+.exp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+
+.volunteer-list { list-style: none; display: grid; gap: 12px; }
+.volunteer-list li {
+  padding: 16px 20px; border-left: 3px solid var(--copper);
+  background: var(--surface); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  transition: border-color .3s, transform .3s var(--ease);
+}
+.volunteer-list li:hover { border-left-color: var(--gold); transform: translateX(6px); }
+.volunteer-list strong { display: block; font-size: .95rem; }
+.volunteer-list span { color: var(--text-muted); font-size: .85rem; }
+
+/* ---------- Mentors ---------- */
+.mentors { background: linear-gradient(180deg, rgba(38,32,49,.5), rgba(34,29,41,.42)); }
+.mentor-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 34px; }
+.mentor-photo {
+  border-radius: var(--radius-md); overflow: hidden;
+  border: 1px solid var(--line-soft); position: relative;
+  box-shadow: 0 20px 50px rgba(0,0,0,.4);
+}
+.mentor-photo img { width: 100%; object-fit: cover; aspect-ratio: 4/3; transition: transform .8s var(--ease); }
+.mentor-photo:hover img { transform: scale(1.06); }
+.mentor-photo figcaption {
+  position: absolute; inset: auto 0 0 0; padding: 40px 18px 14px;
+  font-size: .8rem; color: var(--sediment-200);
+  background: linear-gradient(transparent, var(--scrim-strong));
+}
+
+/* ---------- RESEARCH · Core sample showcase ---------- */
+.research { background: linear-gradient(180deg, rgba(34,29,41,.45), rgba(41,31,32,.42) 60%, rgba(43,33,38,.5)); }
+.core-rack { display: grid; gap: 18px; margin-top: 44px; }
+
+.core-sample {
+  position: relative; display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  border: 1px solid var(--line-soft); border-radius: var(--radius-md);
+  background: var(--surface); overflow: hidden;
+  transition: border-color .35s, box-shadow .35s, transform .35s var(--ease);
+}
+.core-sample:hover { border-color: var(--line); transform: translateY(-3px); box-shadow: 0 18px 44px rgba(0,0,0,.45); }
+.core-sample.is-open { border-color: var(--gold); box-shadow: 0 26px 66px rgba(0,0,0,.55); }
+
+@media (max-width: 640px) { .core-sample { grid-template-columns: 64px minmax(0,1fr); } }
+
+/* The drilled cylinder visual */
+.core-trigger { width: 100%; height: 100%; padding: 18px 0; display: block; position: relative; }
+.core-tube {
+  width: 46px; height: 100%; min-height: 110px; margin: 0 auto;
+  border-radius: 22px; overflow: hidden; position: relative;
+  border: 1px solid rgba(255,255,255,.14);
+  box-shadow: inset -8px 0 14px rgba(0,0,0,.45), inset 6px 0 10px rgba(255,255,255,.12);
+  transition: transform .5s var(--ease);
+}
+.core-sample:hover .core-tube { transform: scaleY(1.04); }
+.core-band { width: 100%; }
+.core-depth-scale {
+  position: absolute; left: 6px; top: 18px; bottom: 18px; width: 1px;
+  background: repeating-linear-gradient(180deg, var(--line) 0 1px, transparent 1px 12px);
+}
+
+.core-summary { padding: 22px 26px; text-align: left; width: 100%; display: block; }
+.core-kicker {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--pyrite); display: flex; gap: 14px; flex-wrap: wrap;
+}
+.core-kicker .litho { color: var(--text-muted); letter-spacing: .06em; text-transform: none; }
+.core-summary h3 { font-family: var(--font-display); font-size: clamp(1.15rem, 2.4vw, 1.5rem); margin: 8px 0 6px; }
+.core-summary .tease { color: var(--text-muted); font-size: .9rem; }
+.core-open-hint {
+  position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+  font-family: var(--font-mono); font-size: .64rem; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+  display: flex; align-items: center; gap: 8px;
+}
+.core-open-hint::after { content: "＋"; font-size: 1.1rem; transition: transform .4s var(--ease); }
+.core-sample.is-open .core-open-hint::after { transform: rotate(45deg); }
+@media (max-width: 640px) { .core-open-hint { display: none; } }
+
+.core-detail { grid-column: 1 / -1; display: grid; }
+/* Accordion collapse only when JS is running (html.js) — without JS the full
+   case-study text stays visible to every reader. */
+.js .core-detail { grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease); }
+.core-sample.is-open .core-detail { grid-template-rows: 1fr; }
+.core-detail-inner { overflow: hidden; }
+.core-detail-pad {
+  display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 26px; padding: 8px 26px 30px;
+}
+@media (max-width: 780px) { .core-detail-pad { grid-template-columns: 1fr; } }
+.core-detail-pad p { color: var(--text-muted); margin-bottom: 16px; }
+.core-img {
+  border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--line-soft);
+  position: relative;
+}
+.core-img img { width: 100%; height: 100%; object-fit: cover; aspect-ratio: 16/10; }
+.thin-section { /* polarizing-microscope overlay */
+  position: absolute; inset: 0; pointer-events: none; mix-blend-mode: screen; opacity: .35;
+  background: conic-gradient(from 0deg, #b6552e33, #41697a33, #e0a95f33, #b6552e33);
+}
+.tag-list { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 14px 0 18px; }
+/* list semantics fixed: tags are proper <li> elements (spans inside <ul> were invalid) */
+.tag-list li {
+  font-family: var(--font-mono); font-size: .66rem; padding: 5px 12px;
+  border-radius: 999px; border: 1px solid var(--line); color: var(--ochre);
+}
+
+/* ---------- Testimonials ---------- */
+.testimonials { background: linear-gradient(180deg, rgba(43,33,38,.5), rgba(53,32,27,.45)); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 44px; }
+.testimonial-card {
+  padding: 28px; border-radius: var(--radius-md);
+  background: var(--surface); border: 1px solid var(--line-soft);
+  display: flex; flex-direction: column; gap: 16px;
+  transition: transform .4s var(--ease), border-color .3s;
+}
+.testimonial-card:hover { transform: translateY(-6px) rotate(-.4deg); border-color: var(--line); }
+.testimonial-badge {
+  align-self: flex-start; font-family: var(--font-mono); font-size: .64rem;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--basalt-950);
+  background: linear-gradient(120deg, var(--gold), var(--copper));
+  padding: 4px 12px; border-radius: 999px; font-weight: 700;
+}
+.testimonial-text { font-family: var(--font-display); font-style: italic; font-size: 1.02rem; line-height: 1.6; color: var(--sediment-200); }
+.testimonial-author { display: flex; gap: 14px; align-items: center; margin-top: auto; }
+.author-avatar {
+  width: 48px; height: 48px; border-radius: 50%; flex: none;
+  display: grid; place-items: center; overflow: hidden;
+  background: linear-gradient(135deg, var(--clay), var(--terracotta));
+  font-family: var(--font-mono); font-weight: 700; color: var(--sediment-100);
+  border: 1px solid var(--line);
+}
+.author-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.author-name { display: block; font-weight: 700; font-size: .92rem; }
+.author-role { display: block; font-size: .78rem; color: var(--text-muted); }
+
+/* ---------- Gallery ---------- */
+.gallery { background: linear-gradient(180deg, rgba(53,32,27,.45), rgba(49,36,43,.5)); }
+.gallery-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 18px; margin-top: 44px;
+}
+.gallery-item { position: relative; }
+.gallery-trigger {
+  display: block; width: 100%; border-radius: var(--radius-md); overflow: hidden;
+  border: 1px solid var(--line-soft); position: relative;
+}
+.gallery-trigger img {
+  width: 100%; aspect-ratio: 4/3; object-fit: cover;
+  transition: transform .9s var(--ease), filter .5s;
+  filter: saturate(.85);
+}
+.gallery-trigger:hover img, .gallery-trigger:focus-visible img { transform: scale(1.07); filter: saturate(1.1); }
+.gallery-trigger::after {
+  content: "⌕ VIEW THIN SECTION"; position: absolute; inset: auto 0 0 0;
+  font-family: var(--font-mono); font-size: .6rem; letter-spacing: .24em;
+  color: var(--basalt-950); background: var(--gold);
+  padding: 8px 12px; transform: translateY(100%); transition: transform .4s var(--ease);
+}
+.gallery-trigger:hover::after, .gallery-trigger:focus-visible::after { transform: translateY(0); }
+.gallery-item figcaption { margin-top: 10px; font-size: .8rem; color: var(--text-muted); font-style: italic; }
+
+/* Photo Gallery — captions must always sit fully visible under each image,
+   so the hover "⌕ VIEW THIN SECTION" overlay never slides over them. */
+.photo-gallery .gallery-trigger.no-overlay::after { display: none; }
+.photo-gallery .gallery-item figcaption {
+  display: block; margin-top: 10px; padding: 8px 12px; text-align: center;
+  background: var(--surface); border-radius: var(--radius-sm);
+  border: 1px solid var(--line-soft);
+  font-size: .82rem; line-height: 1.45; color: var(--text-muted); font-style: italic;
+}
+.photo-gallery > .subsection-title { margin-top: 44px; }
+.photo-gallery .gallery-grid { margin-top: 20px; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--scrim-strong); backdrop-filter: blur(8px);
+  display: grid; place-items: center; padding: 24px;
+  opacity: 0; visibility: hidden; transition: opacity .35s var(--ease), visibility .35s;
+}
+/* While open, the overlay covers the whole viewport and traps interaction */
+.lightbox.open { touch-action: none; }
+.lightbox.open { opacity: 1; visibility: visible; }
+.lightbox figure { max-width: min(1000px, 92vw); }
+.lightbox img {
+  max-width: 100%; max-height: 78vh; border-radius: var(--radius-md);
+  border: 1px solid var(--line); box-shadow: 0 40px 120px rgba(0,0,0,.7);
+}
+/* While the full-size photo is still downloading, keep a minimum frame with
+   a subtle pulse so the viewer never looks broken/blank (photos "not
+   loading" complaint). The pulse stops as soon as load/error fires. */
+.lightbox.loading img {
+  min-width: min(320px, 70vw); min-height: 220px;
+  background: linear-gradient(100deg, #2a2530 40%, #3b3546 50%, #2a2530 60%);
+  background-size: 200% 100%;
+  animation: lb-shimmer 1.2s var(--ease) infinite;
+}
+@keyframes lb-shimmer { to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .lightbox.loading img { animation: none; }
+}
+.lightbox figcaption { margin-top: 14px; text-align: center; color: var(--sediment-200); font-family: var(--font-mono); font-size: .78rem; }
+.lightbox-close {
+  position: absolute; top: 20px; right: 24px; width: 48px; height: 48px;
+  border-radius: 50%; border: 1px solid var(--line); color: var(--gold);
+  font-size: 1.2rem; transition: transform .3s var(--ease), background .3s;
+}
+.lightbox-close:hover { background: var(--gold); color: var(--basalt-950); transform: rotate(90deg); }
+.lightbox-nav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  width: 52px; height: 52px; border-radius: 50%; border: 1px solid var(--line);
+  color: var(--gold); font-size: 1.3rem; transition: background .3s, color .3s;
+}
+.lightbox-nav:hover { background: var(--gold); color: var(--basalt-950); }
+.lightbox-prev { left: 18px; } .lightbox-next { right: 18px; }
+
+/* ==========================================================================
+   PLACES I'VE TRAVELLED — SWIPER PHOTO SLIDESHOW (replaces the old Fieldwork
+   grid + Photo Gallery grids + interactive map). One photo per slide inside a
+   single fixed-height frame = far less vertical space. Powered by Swiper 11
+   (CDN): swipe/drag, ‹ › navigation buttons, autoplay, keyboard and dynamic
+   pagination bullets. If the Swiper CDN is unreachable, js/main.js adds
+   .no-swiper and the stacked fallback rules at the bottom keep every photo
+   visible as a normal grid — nothing breaks without JS or the network.
+   ========================================================================== */
+.photo-slideshow { margin-top: 40px; }
+.swiper.places-swiper-ready { padding-bottom: 34px; } /* room for pagination bullets */
+#places-swiper .swiper-slide.place-slide {
+  height: clamp(320px, 58vh, 540px);
+  display: flex; align-items: center; justify-content: center;
+}
+#places-swiper .place-slide .gallery-item {
+  position: relative; margin: 0; width: 100%; height: 100%;
+  border-radius: var(--radius-md); overflow: hidden;
+  border: 1px solid var(--line-soft); background: var(--surface);
+}
+#places-swiper .place-slide .gallery-trigger {
+  height: calc(100% - 52px); border-radius: 0; border: none;
+}
+#places-swiper .place-slide .gallery-trigger img {
+  width: 100%; height: 100%; aspect-ratio: auto; object-fit: contain;
+  background: var(--basalt-950); filter: none; border-radius: 0; border: none;
+}
+#places-swiper .place-slide figcaption {
+  position: absolute; left: 0; right: 0; bottom: 0; margin: 0;
+  min-height: 52px; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 10px 56px; box-sizing: border-box;
+  background: linear-gradient(180deg, rgba(23,21,31,0), rgba(23,21,31,.92) 40%);
+  color: var(--sediment-200); font-size: .82rem; line-height: 1.45; font-style: italic;
+}
+[data-theme="light"] #places-swiper .place-slide figcaption {
+  background: linear-gradient(180deg, rgba(244,236,223,0), rgba(244,236,223,.94) 40%);
+  color: #4a4152;
+}
+
+/* Current place name under the frame (updated from each slide's data-place) */
+.slideshow-place-bar {
+  margin: 14px 0 0; text-align: center; font-size: 1.05rem;
+  color: var(--ochre); font-family: var(--font-display); font-style: italic;
+}
+
+/* Arrows overlaying the slide edges — site styling on top of Swiper's own
+   swiper-button-prev/next (their ::after glyph is replaced by ours) */
+.slideshow-arrow {
+  position: absolute; top: 50%; transform: translateY(-50%); z-index: 3;
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 1px solid var(--line); background: rgba(23,21,31,.55); color: var(--gold);
+  font-size: 1.5rem; line-height: 1; display: grid; place-items: center;
+  cursor: pointer; transition: background .3s, color .3s, transform .3s var(--ease);
+}
+.slideshow-arrow::after { content: none; }           /* hide Swiper default chevron font */
+.slideshow-prev { left: 12px; }  .slideshow-prev::before { content: "\2039"; }
+.slideshow-next { right: 12px; } .slideshow-next::before { content: "\203A"; }
+.slideshow-arrow:hover { background: var(--gold); color: var(--basalt-950); }
+.swiper-button-disabled { opacity: .35; pointer-events: none; }
+
+/* Pagination bullets (dynamic — one bullet per place group) */
+.places-pagination { position: static; margin-top: 4px; }
+#places-swiper .swiper-pagination-bullet {
+  width: 9px; height: 9px; background: var(--text-muted); opacity: .5;
+  transition: opacity .3s, transform .3s var(--ease);
+}
+#places-swiper .swiper-pagination-bullet-active {
+  opacity: 1; background: var(--gold); transform: scale(1.25);
+}
+
+/* Controls row: place buttons + counter + play/pause */
+.slideshow-controls {
+  display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+  justify-content: center; margin-top: 18px;
+}
+.slideshow-buttons { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.slideshow-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--text-muted); background: var(--surface);
+  border: 1px solid var(--line-soft); border-radius: 999px; padding: 8px 16px;
+  cursor: pointer; transition: background .3s, color .3s, border-color .3s;
+}
+.slideshow-btn:hover { background: var(--surface-2); color: var(--text); }
+.slideshow-btn.is-active { background: var(--gold); border-color: var(--gold); color: var(--basalt-950); }
+.slideshow-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; opacity: .8; }
+.slideshow-counter {
+  font-family: var(--font-mono); font-size: .7rem; letter-spacing: .12em;
+  color: var(--text-muted); margin: 0; min-width: 150px; text-align: center;
+}
+.slideshow-play {
+  font-family: var(--font-mono); font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--gold); background: transparent;
+  border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; cursor: pointer;
+  transition: background .3s, color .3s;
+}
+.slideshow-play:hover { background: var(--surface-2); }
+@media (max-width: 640px) {
+  #places-swiper .swiper-slide.place-slide { height: clamp(280px, 52vh, 420px); }
+  .slideshow-arrow { width: 38px; height: 38px; font-size: 1.2rem; }
+  #places-swiper .place-slide figcaption { padding: 10px 46px; font-size: .74rem; }
+}
+
+/* No-JS fallback list — hidden by default; WITHOUT the html.js flag (added
+   early by theme-switcher.js) the slideshow frame is hidden and this static
+   grid of every photograph is shown instead, so nothing needs JavaScript. */
+html:not(.js) #places-swiper .swiper-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; }
+html:not(.js) #places-swiper .swiper-slide.place-slide { height: auto; }
+html:not(.js) .photo-slideshow .swiper-wrapper,
+html:not(.js) .photo-slideshow .slideshow-arrow,
+html:not(.js) .photo-slideshow .places-pagination,
+html:not(.js) .photo-slideshow .slideshow-place-bar,
+html:not(.js) .photo-slideshow .slideshow-controls { display: none; }
+.slideshow-noscript-note { display: none; }
+html:not(.js) .slideshow-noscript-note { display: block; color: var(--text-muted); font-size: .85rem; margin-top: 12px; }
+
+/* Swiper CDN unavailable (offline / blocked): js/main.js adds .no-swiper and
+   the slides stack as a plain accessible grid instead of a broken carousel. */
+.no-swiper .swiper-wrapper { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px; transform: none !important; }
+.no-swiper .swiper-slide.place-slide { height: auto; }
+.no-swiper .slideshow-arrow, .no-swiper .places-pagination, .no-swiper .slideshow-play { display: none; }
+
+/* ---------- Field map ---------- */
+.field-map { background: linear-gradient(180deg, rgba(49,36,43,.5), rgba(66,35,26,.45)); }
+.map-shell { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 22px; margin-top: 44px; }
+@media (max-width: 900px) { .map-shell { grid-template-columns: 1fr; } }
+.map-canvas {
+  height: 480px; border-radius: var(--radius-md); overflow: hidden;
+  border: 1px solid var(--line-soft); filter: saturate(.75) contrast(1.05);
+}
+/* Static / fallback states inside the map container (no JS, or Leaflet CDN blocked) */
+.map-static-note { padding: 26px; font-size: .9rem; color: var(--text-muted); }
+.map-static-note p { margin-bottom: 14px; }
+.map-unavailable {
+  display: grid; place-items: center; text-align: center; padding: 30px;
+  font-size: .9rem; line-height: 1.6; color: var(--text-muted);
+}
+.leaflet-container { background: var(--map-bg); }
+.custom-map-pin i, .custom-map-pin span { font-size: 30px; line-height: 1; text-shadow: 0 4px 10px rgba(0,0,0,.6); }
+.map-popup { font-family: var(--font-body); line-height: 1.5; }
+.map-popup-role { display: block; font-family: var(--font-mono); font-size: .64rem; letter-spacing: .2em; text-transform: uppercase; color: var(--terracotta); }
+.map-popup-title { display: block; font-size: 1rem; margin: 2px 0; }
+.map-popup-org { font-size: .8rem; color: #555; }
+
+.map-legend {
+  padding: 22px; border-radius: var(--radius-md);
+  background: var(--surface); border: 1px solid var(--line-soft);
+}
+.map-legend-title { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; color: var(--pyrite); margin-bottom: 14px; }
+.map-legend-list { list-style: none; display: grid; gap: 8px; }
+.map-legend-item {
+  display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left;
+  padding: 10px 12px; border-radius: var(--radius-sm); border: 1px solid transparent;
+  transition: background .3s, border-color .3s, transform .3s var(--ease);
+}
+.map-legend-item:hover, .map-legend-item.is-active { background: var(--surface-2); border-color: var(--line); transform: translateX(4px); }
+.legend-dot { width: 12px; height: 12px; border-radius: 50%; margin-top: 5px; flex: none; }
+.legend-dot--work { background: #52b788; box-shadow: 0 0 10px #52b78866; }
+.legend-dot--research { background: #6aaee6; box-shadow: 0 0 10px #6aaee666; }
+.legend-dot--study { background: var(--pyrite); box-shadow: 0 0 10px #d8b25f66; }
+.legend-dot--travel { background: #e07aa5; box-shadow: 0 0 10px #e07aa566; }
+.legend-text strong { display: block; font-size: .88rem; }
+.legend-text em { font-style: normal; font-size: .76rem; color: var(--text-muted); }
+.map-key { list-style: none; display: flex; gap: 16px; margin: 16px 0 10px; font-size: .72rem; color: var(--text-muted); }
+.map-key li { display: flex; align-items: center; gap: 6px; }
+.map-key .legend-dot { margin: 0; width: 9px; height: 9px; }
+.map-legend-note { font-size: .72rem; color: var(--text-muted); }
+
+/* ---------- CONTACT · Mantle / Core ---------- */
+.contact {
+  background:
+    radial-gradient(700px 420px at 50% 115%, rgba(221,139,98,.32), transparent 65%),
+    radial-gradient(1100px 600px at 50% 130%, rgba(230,184,119,.22), transparent 60%),
+    linear-gradient(180deg, rgba(66,35,26,.45) 0%, rgba(74,42,28,.4) 60%, rgba(85,51,31,.5) 100%);
+}
+.contact-card {
+  margin-top: 44px; padding: clamp(28px, 5vw, 56px);
+  border-radius: var(--radius-lg);
+  background: var(--scrim); border: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+  display: grid; gap: 26px; justify-items: center; text-align: center;
+  box-shadow: 0 0 120px rgba(217,126,74,.15) inset;
+}
+.contact-intro { max-width: 54ch; color: var(--sediment-200); font-size: 1.05rem; }
+.contact-details { display: grid; gap: 12px; font-style: normal; width: min(520px, 100%); }
+.contact-row {
+  display: flex; justify-content: space-between; align-items: center; gap: 16px;
+  padding: 12px 18px; border-radius: var(--radius-sm);
+  background: var(--surface); border: 1px solid var(--line-soft);
+  text-align: left; flex-wrap: wrap;
+}
+.contact-row strong { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--pyrite); }
+.contact-row a, .contact-row span { color: var(--text); font-size: .92rem; }
+.contact-row a:hover { color: var(--gold-bright); }
+.copy-btn {
+  font-family: var(--font-mono); font-size: .62rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold); border: 1px solid var(--line);
+  padding: 4px 10px; border-radius: 999px; transition: all .3s;
+}
+.copy-btn:hover { background: var(--gold); color: var(--basalt-950); }
+.languages { font-size: .82rem; color: var(--text-muted); }
+
+/* ---------- FOOTER · Inner core ---------- */
+.site-footer {
+  background: linear-gradient(180deg, rgba(85,51,31,.5), rgba(36,24,18,.45) 70%, rgba(23,21,28,.55));
+  padding: 70px 0 40px; position: relative;
+}
+.footer-inner { display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; }
+.footer-brand { font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; }
+.footer-brand span { color: var(--gold); }
+.footer-links { display: flex; flex-wrap: wrap; gap: 18px; list-style: none; }
+.footer-links a { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .1em; font-family: var(--font-mono); }
+.footer-links a:hover { color: var(--gold); }
+.footer-copy { margin-top: 30px; font-size: .78rem; color: var(--text-muted); text-align: center; width: 100%; }
+.magma-line {
+  height: 3px; margin-bottom: 40px; border-radius: 3px;
+  background: linear-gradient(90deg, transparent, var(--terracotta), var(--gold-bright), var(--terracotta), transparent);
+  animation: magma 6s ease-in-out infinite alternate;
+}
+@keyframes magma { from { opacity: .55; filter: hue-rotate(-8deg); } to { opacity: 1; filter: hue-rotate(10deg); } }
+
+/* ---------- Reveal animations ---------- */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal.visible { opacity: 1; transform: none; }
+.reveal-shift { opacity: 0; transform: translateX(-40px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+.reveal-shift.visible { opacity: 1; transform: none; }
+
+/* Tectonic fault-shift reveal for section titles */
+.fault-split { position: relative; }
+.fault-split.in-view { animation: faultShift .9s var(--ease) both; }
+@keyframes faultShift {
+  0% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+  40% { clip-path: inset(0 0 50% 0); transform: translateX(-26px); }
+  41% { clip-path: inset(50% 0 0 0); transform: translateX(26px); }
+  100% { clip-path: inset(0 0 0 0); transform: translateX(0); }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .reveal, .reveal-shift { opacity: 1; transform: none; }
+}
+
+/* ---------- Mobile refinements for the 3D stage & hero ---------- */
+@media (max-width: 980px) {
+  .hero { text-align: left; }
+  #crystal-stage { aspect-ratio: 1.25 / 1; max-height: 460px; margin-top: 8px; }
+  .photo-card { width: min(38%, 190px); right: 2%; bottom: 2%; }
+  .crystal-hint { font-size: .58rem; }
+}
+@media (max-width: 640px) {
+  :root { --header-h: 64px; }
+  .hero h1 { min-height: 3.4em; }
+  .scroll-cue { display: none; }
+  .section-title { overflow-wrap: anywhere; }
+  .core-summary { padding: 18px 16px; }
+  .core-detail-pad { padding: 4px 16px 24px; }
+  .unit-body { padding: 20px 18px; }
+  .exp-card { padding: 20px 18px; }
+  .map-canvas { height: 360px; }
+}
+
+
+/* hero strata background canvas */
+.hero-bg-canvas {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  z-index: 0; pointer-events: none; opacity: .9;
+}
+.hero .wrap { position: relative; z-index: 1; }
+
+/* ==========================================================================
+   THEME REFRESH v2 — light-mode legibility & animation polish
+   ========================================================================== */
+[data-theme="light"] ::selection { background: var(--terracotta-2); color: #fff; }
+[data-theme="light"] .photo-card,
+[data-theme="light"] .about-photo,
+[data-theme="light"] .mentor-photo { box-shadow: 0 24px 54px rgba(76, 58, 40, .22); }
+[data-theme="light"] .unit-node { background: var(--basalt-900); }
+[data-theme="light"] .custom-map-pin i, [data-theme="light"] .custom-map-pin span { text-shadow: 0 4px 10px rgba(76,58,40,.35); }
+[data-theme="light"] .thin-section { mix-blend-mode: multiply; opacity: .25; }
+[data-theme="light"] .grain { opacity: .035; }
+[data-theme="light"] .map-popup-org { color: #6f6557; }
+
+/* Layered wave on the hero headline + lead */
+.wave-word { display: inline-block; }
+#typing-text.in-wave .wave-letter { animation-duration: 3.4s; }
+.hero h1 .wave-letter { font-family: inherit; }
+
+/* Skill chips breathe in a gentle stagger */
+.skill-list li { animation: chipFloat 4.8s ease-in-out infinite; animation-delay: calc(var(--sk-i, 0) * 220ms); }
+@keyframes chipFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+.skill-list li:hover { animation-play-state: paused; }
+
+/* Section titles shimmer (wavy gradient sweep) once revealed */
+.section-title.fault-split.in-view { animation: faultShift .9s var(--ease) both, titleShimmer 5s ease-in-out 1s infinite; }
+@keyframes titleShimmer {
+  0%, 100% { background-position: 200% 0; }
+  50%      { background-position: -100% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-list li { animation: none; }
+  .section-title.fault-split.in-view { animation: faultShift .01ms both; }
+}
+
+/* ---------- Seismograph visibility fix: light-theme translucent washes ---------- */
+[data-theme="light"] .hero        { background:
+    radial-gradient(1100px 500px at 80% -10%, rgba(173,78,38,.10), transparent 60%),
+    radial-gradient(900px 600px at 10% 110%, rgba(192,138,62,.08), transparent 55%),
+    linear-gradient(180deg, rgba(247,242,232,.55) 0%, rgba(242,233,218,.45) 55%, rgba(242,233,218,.55) 100%); }
+[data-theme="light"] .about       { background: linear-gradient(180deg, rgba(247,242,232,.55), rgba(242,233,218,.45)); }
+[data-theme="light"] .mentors     { background: linear-gradient(180deg, rgba(238,227,208,.5), rgba(238,227,208,.42)); }
+[data-theme="light"] .research    { background: linear-gradient(180deg, rgba(238,227,208,.45), rgba(234,220,196,.42) 60%, rgba(234,220,196,.5)); }
+[data-theme="light"] .testimonials{ background: linear-gradient(180deg, rgba(234,220,196,.5), rgba(236,214,189,.45)); }
+[data-theme="light"] .gallery     { background: linear-gradient(180deg, rgba(236,214,189,.45), rgba(236,214,189,.5)); }
+[data-theme="light"] .field-map   { background: linear-gradient(180deg, rgba(236,214,189,.5), rgba(232,203,168,.45)); }
+[data-theme="light"] .contact     { background:
+    radial-gradient(700px 420px at 50% 115%, rgba(194,100,59,.22), transparent 65%),
+    radial-gradient(1100px 600px at 50% 130%, rgba(192,138,62,.18), transparent 60%),
+    linear-gradient(180deg, rgba(232,203,168,.45) 0%, rgba(232,203,168,.4) 60%, rgba(232,203,168,.5) 100%); }
+[data-theme="light"] .site-footer { background: linear-gradient(180deg, rgba(232,203,168,.5), rgba(226,192,150,.45) 70%, rgba(247,242,232,.55)); }
+
+/* Users who opt out of translucency get the original solid strata back —
+   scoped to the dark theme so the default light portfolio keeps its white
+   card surfaces (and the seismograph stays visible behind them). */
+@media (prefers-reduced-transparency: reduce) {
+  [data-theme="dark"] body { background: var(--bg); }
+  [data-theme="dark"] .about        { background: linear-gradient(180deg, var(--basalt-950), var(--layer-regolith)); }
+  [data-theme="dark"] .hero         { background:
+      radial-gradient(1100px 500px at 80% -10%, rgba(192,106,74,.16), transparent 60%),
+      radial-gradient(900px 600px at 10% 110%, rgba(230,184,119,.09), transparent 55%),
+      linear-gradient(180deg, var(--layer-surface-a) 0%, #201c2a 55%, var(--basalt-950) 100%); }
+  [data-theme="dark"] .mentors      { background: linear-gradient(180deg, #262031, var(--layer-sed-b)); }
+  [data-theme="dark"] .research     { background: linear-gradient(180deg, var(--layer-sed-a), var(--layer-deep) 60%, #2b2126); }
+  [data-theme="dark"] .testimonials { background: linear-gradient(180deg, #2b2126, var(--layer-mantle)); }
+  [data-theme="dark"] .gallery      { background: linear-gradient(180deg, var(--layer-mantle), #31242b); }
+  [data-theme="dark"] .field-map    { background: linear-gradient(180deg, #31242b, var(--layer-core)); }
+  [data-theme="dark"] .contact      { background:
+      radial-gradient(700px 420px at 50% 115%, rgba(221,139,98,.32), transparent 65%),
+      radial-gradient(1100px 600px at 50% 130%, rgba(230,184,119,.22), transparent 60%),
+      linear-gradient(180deg, var(--layer-core) 0%, #4a2a1c 60%, #55331f 100%); }
+  [data-theme="dark"] .site-footer  { background: linear-gradient(180deg, #55331f, #241812 70%, var(--basalt-950)); }
+  [data-theme="light"] .hero, [data-theme="light"] .about, [data-theme="light"] .mentors,
+  [data-theme="light"] .research, [data-theme="light"] .testimonials, [data-theme="light"] .gallery,
+  [data-theme="light"] .field-map, [data-theme="light"] .contact, [data-theme="light"] .site-footer {
+    background: var(--bg);
+  }
+}
+
+
+/* ==========================================================================
+   STRATA v6 — Recruiter-first static layout additions
+   ========================================================================== */
+
+/* Category-grouped technical skills */
+.skills-heading,
+.subsection-title {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem); color: var(--text);
+  margin: clamp(36px, 6vh, 60px) 0 18px;
+}
+.skill-groups { list-style: none; display: grid; gap: 22px; margin-top: 8px; }
+.skill-group h4 {
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--pyrite); margin-bottom: 10px;
+}
+.skill-group .skill-list { margin-top: 0; }
+
+/* Experience cards: titles, employers, projects, locations, dates */
+.exp-timeline { display: grid; gap: 22px; margin-top: 44px; }
+.exp-project { font-size: .9rem; color: var(--text-muted); margin: -6px 0 10px; }
+.exp-dates {
+  font-family: var(--font-mono); font-size: .72rem; letter-spacing: .12em;
+  color: var(--gold); margin-bottom: 14px; text-transform: uppercase;
+}
+
+/* Education units */
+.unit-body h3 { font-family: var(--font-display); font-size: 1.28rem; margin-bottom: 6px; }
+.unit-result { font-size: .88rem; color: var(--text); margin-bottom: 10px; }
+
+/* Case-study records (projects & research) */
+.case-meta {
+  display: grid; grid-template-columns: auto 1fr; gap: 6px 18px;
+  margin: 4px 0 18px; font-size: .85rem;
+}
+.case-meta dt {
+  font-family: var(--font-mono); font-size: .66rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--pyrite); padding-top: 3px;
+}
+.case-meta dd { color: var(--text); }
+.case-field { color: var(--text-muted); font-size: .92rem; margin-bottom: 12px; }
+.case-field strong { color: var(--text); }
+.core-img figcaption { margin-top: 10px; font-size: .78rem; color: var(--text-muted); font-style: italic; }
+.output-note { margin: 6px 0 14px; }
+
+/* Publications */
+.publication-list { margin: 8px 0 0 clamp(18px, 3vw, 28px); display: grid; gap: 12px; color: var(--text-muted); font-size: .92rem; }
+.publication-list li::marker { color: var(--gold); font-family: var(--font-mono); }
+.publication-list a { text-decoration: underline; text-underline-offset: 3px; }
+
+/* Inline CV button + photo captions */
+.cv-inline { margin-top: 22px; }
+.photo-caption {
+  display: block; padding: 12px 16px; font-size: .78rem; font-style: italic;
+  color: var(--text-muted); background: var(--surface);
+}
+
+/* Field-site text list (map alternative for screen readers & no-JS) */
+.site-list { list-style: none; display: grid; gap: 12px; margin: 18px 0 30px; }
+.site-list li {
+  padding: 14px 18px; border-left: 3px solid var(--copper);
+  background: var(--surface); border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--text-muted); font-size: .92rem;
+}
+.site-list strong { color: var(--text); }
+
+/* On-demand map disclosure */
+.map-details { margin-top: 8px; }
+.map-details > summary {
+  cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: .78rem; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--gold);
+  border: 1px solid var(--line); border-radius: 999px; padding: 10px 22px;
+  margin-bottom: 22px; transition: background .3s, color .3s;
+  list-style: none;
+}
+.map-details > summary::-webkit-details-marker { display: none; }
+.map-details > summary::before { content: "▸"; transition: transform .25s var(--ease); }
+.map-details[open] > summary::before { transform: rotate(90deg); }
+.map-details > summary:hover, .map-details > summary:focus-visible { background: var(--surface-2); }
+
+/* Mentors lead line */
+.mentors-lead { color: var(--ochre); font-style: italic; margin-top: 26px; max-width: 60ch; }
+
+/* Volunteer descriptions (list items now use <span class="volunteer-desc">) */
+.volunteer-desc { display: block; color: var(--text-muted); font-size: .85rem; }
+
+/* Lightbox overlay must block background interaction while open */
+.lightbox[hidden] { display: none !important; }
+
+/* Stronger, always-visible focus indicators (WCAG 2.1 AA) */
+a:focus-visible, button:focus-visible, summary:focus-visible,
+[role="application"]:focus-visible, input:focus-visible {
+  outline: 3px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+[data-theme="light"] a:focus-visible,
+[data-theme="light"] button:focus-visible,
+[data-theme="light"] summary:focus-visible { outline-color: #7a5210; }
+
+/* Crystal stage: purely decorative canvas region — never intercepts input
+   when WebGL is absent, and its hint label stays out of the a11y tree. */
+#crystal-stage.no-webgl { pointer-events: none; }
+.crystal-hint { pointer-events: none; }
+
+/* Reduced motion: freeze canvas-driven ambience too */
+@media (prefers-reduced-motion: reduce) {
+  .corner-om, .scroll-cue::after { animation: none !important; }
+  /* Canvas rAF is already paused by js/seismograph.js — keep the last drawn
+     frame visible at full canvas opacity instead of fading it out. */
+}
+
+/* Travel photo gallery (Places I've Travelled) */
+.travel-photos-grid { margin-top: 1rem; }
+.travel-photos-grid .gallery-item img {
+  display: block; width: 100%; height: 100%; object-fit: cover; aspect-ratio: 4 / 3;
+  border-radius: var(--radius-md); border: 1px solid var(--line-soft);
+  filter: saturate(.9); transition: transform .9s var(--ease), filter .5s;
+}
+.travel-photos-grid .gallery-item:hover img { transform: scale(1.02); filter: saturate(1.08); }
+
+/* ==========================================================================
+   CONTACT / PUBLICATION LINK LAYER (header · hero · footer · core cards)
+   BEM-style classes consumed by index.html; strata.css is loaded after
+   style.css so these rules are authoritative for layout & visibility.
+   ========================================================================== */
+
+/* Header quick-contact strip — restyled as compact translucent pills on the
+   slate backdrop in the GEO v3 header section above (see ".header-inner"
+   block). Only non-conflicting layout helpers are kept here so the earlier
+   pill rules stay authoritative and no gold-underlined chips reappear. */
+.header-contact { font-style: normal; }
+
+/* Hero one-line direct contact */
+.hero-contact-line {
+  margin: .65rem 0 0;
+  font-size: .9rem;
+  color: var(--text-muted, #b3a795);
+}
+.hero-contact-line__link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.hero-contact-line__link:hover,
+.hero-contact-line__link:focus-visible { color: var(--gold); outline-offset: 2px; }
+
+/* Footer contact block */
+.footer-contact { font-style: normal; }
+.footer-contact__link {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  min-height: 24px;
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-contact__link:hover,
+.footer-contact__link:focus-visible {
+  color: var(--gold-bright);
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.footer-contact__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.15em;
+  font-style: normal;
+  color: var(--pyrite);
+}
+
+/* Footer publication line + secure PDF link */
+.footer-publication {
+  width: 100%;
+  margin: .35rem 0 0;
+  font-size: .82rem;
+  color: var(--text-muted, #b3a795);
+  text-align: center;
+}
+.footer-pdf-link {
+  display: inline-block;
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.footer-pdf-link:hover,
+.footer-pdf-link:focus-visible { color: var(--gold-bright); outline-offset: 2px; }
+
+/* Publication PDF link inside accordion "core" case-study cards.
+   Sits on a relative layer ABOVE the accordion toggle buttons (.core-summary
+   / .core-trigger, z-index 0) so clicks always reach the anchor, and
+   js/main.js stops click propagation so opening the PDF never toggles the
+   card open/closed state. */
+.core-pdf-link {
+  display: inline-block;
+  position: relative;
+  z-index: 5;
+}
+[data-theme="light"] .footer-contact__link,
+[data-theme="light"] .footer-pdf-link { color: var(--clay, #8a5d45); }
+[data-theme="light"] .footer-contact__link:hover,
+[data-theme="light"] .footer-pdf-link:hover { color: var(--terracotta, #c06a4a); }
+/* Header pills always sit on the dark slate bar regardless of page theme —
+   keep them white (terracotta on hover) even in light mode. */
+[data-theme="light"] .header-contact__link { color: #fff; background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); }
+[data-theme="light"] .header-contact__link:hover,
+[data-theme="light"] .header-contact__link:focus-visible { color: #fff; background: var(--geo-secondary); border-color: var(--geo-secondary); }
+
+/* ============================================================
+   Image rendering fixes (v11) — gallery tiles & map popups
+   ============================================================ */
+
+/* Gallery tiles: images render as uniform 4:3 crops via CSS object-fit;
+   the width/height attributes now carry each file's TRUE intrinsic size so
+   browsers compute the correct aspect ratio before load (no squashed,
+   letterboxed or mis-sized placeholders).
+   NOTE: js/main.js wraps registered figures' <img> nodes inside a
+   .gallery-trigger button, so both the direct-child and wrapped forms are
+   covered here — otherwise unregistered grids (e.g. travel photos) would
+   fall back to raw full-size images that overflow their cells. */
+.gallery-item > img,
+.gallery-item .gallery-trigger img {
+  display: block; width: 100%; height: auto;
+  aspect-ratio: 4 / 3; object-fit: cover;
+  border-radius: var(--radius-md); border: 1px solid var(--line-soft);
+  filter: saturate(.9); transition: transform .9s var(--ease), filter .5s;
+}
+.gallery-item:hover > img,
+.gallery-item:hover .gallery-trigger img { transform: scale(1.02); filter: saturate(1.08); }
+
+/* Leaflet popups are text-only now (pinpoints — "no images on the map").
+   The old .map-popup-photo rules were removed together with the photo
+   injection in js/main.js; nothing loads images through the map any more. */
+
+/* Legend dots coloured by pin type (used by #travelMap legend + key) */
+.legend-dot--work     { background: #52b788; box-shadow: 0 0 10px #52b78866; }
+.legend-dot--research { background: #6aaee6; box-shadow: 0 0 10px #6aaee666; }
+.legend-dot--study    { background: var(--pyrite); box-shadow: 0 0 10px #d8b25f66; }
+.legend-dot--travel   { background: #e07aa5; box-shadow: 0 0 10px #e07aa566; }

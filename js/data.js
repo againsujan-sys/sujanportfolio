@@ -194,7 +194,7 @@ window.STRATA_DATA = {
 
   travelPhotos: [
     { src: 'image/hero-me.jpg', site: 'taplejung', caption: 'Portrait in front of the sacred Pathibhara temple, Taplejung.', alt: 'Sujan Paudyal standing in front of the Pathibhara temple in Taplejung' },
-    { src: 'image/behind-sacred-pathibhara-temple-taplejung.jpg', site: 'bhadrapal', caption: 'Trail behind the Pathibhara temple leading toward Bhadrapal, Taplejung.', alt: 'Trail behind the Pathibhara temple leading toward Bhadrapal, Taplejung' },
+    { src: 'image/behind-sacred-pathibhara-temple-taplejung.jpg', site: 'Pathibhara', caption: 'Trail behind the Pathibhara temple leading toward Pathibhara, Taplejung.', alt: 'Trail behind the Pathibhara temple leading toward Pathibhara, Taplejung' },
     { src: 'image/with-friends-behind-temple.jpg', site: 'taplejung', caption: 'With friends behind the temple, Pathibhara, Taplejung.', alt: 'Friends together behind the temple at Pathibhara, Taplejung' },
     { src: 'image/taplejung-helipad.jpg', site: 'taplejung', caption: 'Helipad ground check during a logistics recce above Phungling, Taplejung.', alt: 'Hilltop helipad used for material logistics above Phungling, Taplejung' },
     { src: 'image/childhood-1.jpg', site: 'taplejung', caption: 'Childhood days in Taplejung.', alt: 'Photograph from early childhood in Taplejung' },
@@ -228,7 +228,7 @@ window.STRATA_DATA = {
     { src: 'image/with-friends-at-campus.jpg', site: 'kathmandu', caption: 'With friends on campus, Kathmandu.', alt: 'Friends together on the Tri-Chandra campus, Kathmandu' },
     { src: 'image/behind-home-ministry.jpg', site: 'kathmandu', caption: 'Behind the Home Ministry, Singh Durbar, Kathmandu.', alt: 'View from behind the Home Ministry building, Singh Durbar, Kathmandu' },
     { src: 'image/behind-foreign-ministry.jpg', site: 'kathmandu', caption: 'Behind the Foreign Ministry, Kathmandu.', alt: 'View from behind the Ministry of Foreign Affairs, Kathmandu' },
-    { src: 'image/during-new-location-hunt-taplejung-manabhara.jpg', site: 'manakhmai', caption: 'Scouting a new tower location along the Manakhmai stretch, Taplejung.', alt: 'Scouting a new tower location along the Manakhmai stretch, Taplejung' },
+    { src: 'image/during-new-location-hunt-taplejung-manabhara.jpg', site: 'Manabhara', caption: 'Scouting a new tower location along the Manabhara stretch, Taplejung.', alt: 'Scouting a new tower location along the Manabhara stretch, Taplejung' },
     { src: 'image/at-trichandra.jpg', site: 'madhyaphawa', caption: 'Pre-field terrain mapping exercise before the Madhyaphawa Khola survey.', alt: 'Practical terrain-mapping exercise ahead of the Madhyaphawa Khola hydroelectric survey' },
     { src: 'image/at-trichandra-2.jpg', site: 'madhyaphawa', caption: 'Second mapping-practice session ahead of the hydroelectric site visit.', alt: 'Second session of corridor mapping practice ahead of the hydroelectric site visit' },
     { src: 'image/geological-field-visit.jpg', site: 'rasuwagadhi', caption: 'Channel observation during the Rasuwagadhi\u2013Kerung field visit.', alt: 'River channel measurement and field research near the Rasuwagadhi-Kerung transboundary corridor' },
@@ -254,8 +254,8 @@ window.STRATA_DATA = {
     { id: 'madhyaphawa', type: 'work', name: 'Madhyaphawa Khola', role: 'Field Work', org: 'Hydroelectric site investigation (OJT)', place: 'Madhyaphawa Khola corridor, Taplejung', coords: [27.15, 87.75], zoom: 12 },
     { id: 'rasuwagadhi', type: 'research', name: 'Rasuwagadhi\u2013Kerung', role: 'Research', org: 'Published flood dynamics study \u00b7 GeoWorld Journal', place: 'Rasuwagadhi border point, Rasuwa District', coords: [28.2833, 85.3833], zoom: 11 },
     { id: 'jajarkot', type: 'research', name: 'Jajarkot', role: 'Research', org: 'Seismic micro-zonation study (in progress)', place: 'Jajarkot District \u2014 2023 Mw 6.4 epicentral region', coords: [28.72, 82.19], zoom: 11 },
-    { id: 'manakhmai', type: 'work', name: 'Manakhmai', role: 'Field Work', org: 'New tower-location recce \u00b7 transmission alignment', place: 'Manakhmai, Taplejung, Koshi Province', coords: [27.30, 87.72], zoom: 12 },
-    { id: 'bhadrapal', type: 'travel', name: 'Bhadrapal', role: 'Travel', org: 'Pathibhara temple approach \u00b7 highland terrain', place: 'Bhadrapal, Taplejung, Koshi Province', coords: [27.40, 87.72], zoom: 12 },
+    { id: 'Manabhara', type: 'work', name: 'Manabhara', role: 'Field Work', org: 'New tower-location recce \u00b7 transmission alignment', place: 'Manabhara, Taplejung, Koshi Province', coords: [27.30, 87.72], zoom: 12 },
+    { id: 'Pathibhara', type: 'travel', name: 'Pathibhara', role: 'Travel', org: 'Pathibhara temple approach \u00b7 highland terrain', place: 'Pathibhara, Taplejung, Koshi Province', coords: [27.40, 87.72], zoom: 12 },
     { id: 'kathmandu', type: 'study', name: 'Kathmandu', role: 'Academic', org: 'Tri-Chandra Multiple Campus, Tribhuvan University', place: 'Ghantaghar, Kathmandu', coords: [27.7172, 85.324], zoom: 12 }
   ],
 

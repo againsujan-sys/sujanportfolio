@@ -1966,3 +1966,17 @@ a:focus-visible, button:focus-visible, summary:focus-visible,
 .legend-dot--research { background: #6aaee6; box-shadow: 0 0 10px #6aaee666; }
 .legend-dot--study    { background: var(--pyrite); box-shadow: 0 0 10px #d8b25f66; }
 .legend-dot--travel   { background: #e07aa5; box-shadow: 0 0 10px #e07aa566; }
+
+.shlok.reveal {
+    position: fixed; /* Keeps it in the top right even when scrolling (use 'absolute' if you want it to scroll with the page) */
+    top: 20px;       /* Distance from the top */
+    right: 20px;     /* Distance from the right */
+    z-index: 1000;   /* Ensures it stays above other content */
+    text-align: center;
+    font-family: 'devanagari', sans-serif; /* Optional: specify your Devanagari font */
+}
+
+.shlok-devanagari p {
+    margin: 0;
+    line-height: 1.4;
+}

@@ -1562,7 +1562,7 @@ html:not(.js) .slideshow-noscript-note { display: block; color: var(--text-muted
   display: flex; justify-content: space-between; align-items: center; gap: 16px;
   padding: 12px 18px; border-radius: var(--radius-sm);
   background: var(--surface); border: 1px solid var(--line-soft);
-  text-align: left; flex-wrap: wrap;
+  text-align: center; flex-wrap: wrap;
 }
 .contact-row strong { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .22em; text-transform: uppercase; color: var(--pyrite); }
 .contact-row a, .contact-row span { color: var(--text); font-size: .92rem; }

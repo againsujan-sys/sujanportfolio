@@ -262,7 +262,7 @@ window.STRATA_DATA = {
   contact: {
     intro: 'I\'m open to graduate research opportunities, consulting, and project collaborations. Let\'s connect!',
     rows: [
-      { label: 'Email', value: 'again.sujan@gmail.com', href: 'mailto:again.sujan@gmail.com', copy: true },
+      { label: 'Email', value: 'thats.sujan@gmail.com', href: 'mailto:thats.sujan@gmail.com', copy: true },
       { label: 'Phone', value: '+977 986-7996682', href: 'tel:+9779867996682', copy: true },
       { label: 'LinkedIn', value: 'linkedin.com/in/sujanpaudyal', href: 'https://www.linkedin.com/in/sujanpaudyal', external: true },
       { label: 'Location', value: 'Kathmandu / Koshi Province, Nepal' },

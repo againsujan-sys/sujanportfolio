@@ -1969,10 +1969,10 @@ a:focus-visible, button:focus-visible, summary:focus-visible,
 
 .shlok.reveal {
     position: fixed; /* Keeps it in the top right even when scrolling (use 'absolute' if you want it to scroll with the page) */
-    top: 20px;       /* Distance from the top */
+    top: 150px;       /* Distance from the top */
     right: 20px;     /* Distance from the right */
     z-index: 1000;   /* Ensures it stays above other content */
-    text-align: center;
+    text-align: right;
     font-family: 'devanagari', sans-serif; /* Optional: specify your Devanagari font */
 }
 
